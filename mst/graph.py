@@ -38,6 +38,7 @@ class Graph:
         """
 	
         # initialize priority queue with start node 0
+        # entries in the priority queue will be a tuple of the form (node, predecessor in mst)
         n_nodes = self.adj_mat.shape[0]
         h = []
         heapq.heappush(h, (0, (0,0))) 
