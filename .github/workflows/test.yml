@@ -29,6 +29,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install networkx
           pip install pytest
+          pip install numpy
       
       - name: Run unit tests
         run: python -m pytest -v test/*
