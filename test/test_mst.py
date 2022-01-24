@@ -3,7 +3,7 @@ import pytest
 import numpy as np
 from mst import Graph
 from sklearn.metrics import pairwise_distances
-
+import networkx as nx
 
 def check_mst(adj_mat: np.ndarray, 
               mst: np.ndarray, 
@@ -19,7 +19,7 @@ def check_mst(adj_mat: np.ndarray,
             expected_weight: weight of the minimum spanning tree of the full graph
             allowed_error: Allowed difference between proposed MST weight and `expected_weight`
 
-        TODO: 
+        DONE: 
             Add additional assertions to ensure the correctness of your MST implementation
         For example, how many edges should a minimum spanning tree have? Are minimum spanning trees
         always connected? What else can you think of?
@@ -33,6 +33,12 @@ def check_mst(adj_mat: np.ndarray,
             total += mst[i, j]
     assert approx_equal(total, expected_weight), 'Proposed MST has incorrect expected weight'
 
+    # check that the correct number of edges are present
+    assert len(mst[mst!= 0]) == (mst.shape[0] - 1)*2
+    
+    # check that the graph is connected with networkx
+    g = nx.from_numpy_matrix(mst)
+    assert nx.is_connected(g) 
 
 def test_mst_small():
     """ Unit test for the construction of a minimum spanning tree on a small graph """
@@ -58,5 +64,11 @@ def test_mst_single_cell_data():
 
 
 def test_mst_student():
-    """ TODO: Write at least one unit test for MST construction """
+    """ DONE: Write at least one unit test for MST construction """
+    arr = np.array([[0,7,4],[7,0,1],[4,1,0]])
+    g = Graph(arr)
+    g.construct_mst()
+    mst = g.mst
+    expected = np.array([[0,0,4],[0,0,1],[4,1,0]])
+    assert np.sum(mst == expected) == 9
     pass
